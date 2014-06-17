@@ -31,7 +31,7 @@ var GalleryCollection = Parse.Collection.extend({
 });
 
 var collection = new GalleryCollection();
-collection.fetch({
+collection.fetch({add:true,
   success: function(collection) {
     collection.each(function(object) {
       console.warn(object);
@@ -41,6 +41,8 @@ collection.fetch({
 
   }
 });
+
+
 
 ////VIEW//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,16 +65,18 @@ var GalleryView = Parse.View.extend({
   }, 
 
   render: function(){
-    if (this.model.attributes.hasOwnProperty(object)) {
+    if (this.model.attributes.hasOwnProperty("URL")) {
       var renderTemplate = this.pictureTemplate(this.model.attributes);
       this.$el.html(renderTemplate);
     }
   },
 
   showUpload: function(){
-    console.log('it worked')
-    $.post("", {
-      url: this.model.attributes.url
-    });
+    var renderTemplate = this.pictureTemplate(this.model.attributes);
+    this.$el.html(renderTemplate);
+
+    this.model = new Gallery();
+    this.$el.find('input').val('');
+    this.$el.find('.container').html();
   }
 })
