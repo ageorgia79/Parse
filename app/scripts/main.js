@@ -2,24 +2,18 @@
 
 Parse.initialize("FU763QF0GcO4c8CWgyErSTBwEfYmmvtJxgvYLLjs", "qyte7Vfkkc3NtqL767YsGaXO7FjGk4KNUWx5RP7E");
 
-//MODEL//////////////////////////////////////////////////////////////////////////////////////////////////////
+//MODEL///////
 var Gallery = Parse.Object.extend({
   className: 'Gallery'
 });
-///END MODEL/////////////////////////////////////////////////////////////////////////////////////////////////
+///END MODEL//
 
 
-var gallery = new Gallery();
-
-$('.upload').click(function(){
-  gallery.set('url', $('.uploader').val());//WHY DOES THIS ONLY WORK IN GLOBAL SCOPE/////////////////////////
 
 
-  gallery.save();
-})
 
 
-//COLLECTION////////////////////////////////////////////////////////////////////////////////////////////////
+//COLLECTION//
 
 var GalleryCollection = Parse.Collection.extend({
 
@@ -28,53 +22,61 @@ var GalleryCollection = Parse.Collection.extend({
 });
 
 var collection = new GalleryCollection();
-////END COLLECTION//////////////////////////////////////////////////////////////////////////////////////////
+//ENDCOLLECTION/
 
 
 
-////VIEW////////////////////////////////////////////////////////////////////////////////////////////////////
+////VIEW//////
 
-var url;
 
 var GalleryView = Parse.View.extend({
+
+  className: 'cool',
 
   pictureTemplate: _.template($('.picture-template').text()),
 
   events: {
 
     "click .upload": "showUpload"
+
   },
 
   initialize: function(){
-    
-    $('.container').append(this.model);
+    //this.model.on('add', this.render);
+    $('.container').append(this.el);
+
       this.render();
   }, 
 
-  //this.model.on('add', this.render)
   //this.model.trigger('add')
 
   render: function(){
     
-    var renderedTemplate = this.pictureTemplate(this.model)
+    var renderedTemplate = this.pictureTemplate("");
+
     this.$el.html(renderedTemplate);
-    return this;
-  
+
   },
 
   showUpload: function(){
+    console.log('hi')
     
-      gallery.set('url', $('.uploader').val());
+      var gallery = new Gallery();
+
+    // var gallery = new Gallery();
+      var url = $('.uploader').val();
+      gallery.set('url', url);
+
       gallery.save();
     
-  },
-
+  }
 
 });
 
   var view = new GalleryView();
+
   collection.fetch({add:true});
-////END VIEW//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////END VIEW/////
     
 
 
