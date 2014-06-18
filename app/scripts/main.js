@@ -32,6 +32,7 @@ var GalleryView = Parse.View.extend({
   },
 
   initialize: function(){
+    this.model.on('add', this.render);  
     $('.container').append(this.el);
       this.render();
   }, 
@@ -40,7 +41,7 @@ var GalleryView = Parse.View.extend({
   //this.model.trigger('add')
 
   render: function(){
-    if (this.model.attributes.hasOwnProperty("url")) {
+    if (this.model.attributes.hasOwnProperty('url')) {
     var renderedTemplate = this.pictureTemplate(this.model.attributes);
     this.$el.html(renderedTemplate);
     return this;
@@ -50,13 +51,10 @@ var GalleryView = Parse.View.extend({
   },
 
   showUpload: function(){
-    var value = $('.uploader').val();
-
-    this.model.set({
-      value: this.$el.find('.uploader').val(),
-    });
-
-    this.model.save();
+    $('.upload').click(function(){
+      gallery.set('url', $('.uploader').val());
+      gallery.save();
+    })
   }
 });
 
