@@ -2,24 +2,11 @@ Parse.initialize("FU763QF0GcO4c8CWgyErSTBwEfYmmvtJxgvYLLjs", "qyte7Vfkkc3NtqL767
 
 //MODEL//////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var Gallery = Parse.Object.extend("Gallery");
+var Gallery = Parse.Object.extend({
+  className: 'Gallery'
+});
 
 var gallery = new Gallery();
-
-var inputVal = (" ");
-
-gallery.set("url", inputVal);
-gallery.save(null, {
-  success: function(gallery) {
-
-    alert('new image created' + gallery.id);
-  },
-
-  error: function(gallery, error) {
-
-    alert('image failed' + error.description);
-  }
-});
 
 //COLLECTION//////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,23 +18,9 @@ var GalleryCollection = Parse.Collection.extend({
 });
 
 var collection = new GalleryCollection();
-collection.fetch({add:true,
-  success: function(collection) {
-    collection.each(function(object) {
-      console.warn(object);
-    });
-  },
-  error: function(collection, error) {
-
-  }
-});
-
-
 
 ////VIEW//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 var GalleryView = Parse.View.extend({
 
@@ -59,24 +32,35 @@ var GalleryView = Parse.View.extend({
   },
 
   initialize: function(){
-    this.listenTo(this.model);
     $('.container').append(this.el);
-    this.render();
+      this.render();
   }, 
 
+  //this.model.on('add', this.render)
+  //this.model.trigger('add')
+
   render: function(){
-    if (this.model.attributes.hasOwnProperty("URL")) {
-      var renderTemplate = this.pictureTemplate(this.model.attributes);
-      this.$el.html(renderTemplate);
-    }
+    var renderedTemplate = this.pictureTemplate(this.model.attributes);
+    this.$el.html(renderedTemplate);
+    return this;
+  
   },
 
   showUpload: function(){
-    var renderTemplate = this.pictureTemplate(this.model.attributes);
-    this.$el.html(renderTemplate);
+    var value = $('.uploader').val();
 
-    this.model = new Gallery();
-    this.$el.find('input').val('');
-    this.$el.find('.container').html();
+    this.model.set({
+      value: this.$el.find('.uploader').val(),
+    });
+
+    this.model.save();
   }
-})
+});
+
+//FETCH//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+    collection.fetch({add:true});
+
+
