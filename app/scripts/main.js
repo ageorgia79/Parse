@@ -40,9 +40,12 @@ var GalleryView = Parse.View.extend({
   //this.model.trigger('add')
 
   render: function(){
+    if (this.model.attributes.hasOwnProperty("url")) {
     var renderedTemplate = this.pictureTemplate(this.model.attributes);
     this.$el.html(renderedTemplate);
     return this;
+
+    }
   
   },
 
