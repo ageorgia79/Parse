@@ -20,7 +20,7 @@ var PostCollection = Parse.Collection.extend({
 var collection = new PostCollection();
 //ENDCOLLECTION/
 
-////VIEW//////
+////POSTVIEW//////
 
 
 var PostView = Parse.View.extend({
@@ -60,9 +60,9 @@ var PostView = Parse.View.extend({
       post.set('url', url);
 
       post.save().done(function(){
-        new PostView({
-          model: post
-        })
+        var detail = new DetailView({model: this.model});
+        $('.imagecontainer').append(detail);
+
       })
     
   }
@@ -70,9 +70,28 @@ var PostView = Parse.View.extend({
 });
 
   var view = new PostView();
+////END POSTVIEW/////
+
+//BEGIN DETAIL VIEW//
+
+var DetailView = Parse.View.extend({
+
+  className: 'detail',
+
+  detailTemplate: _.template($('.detail-template').text()),
+
+  initialize: function(){
+    $('.imagecontainer').append(this.el);
+    this.render();
+  },
+
+  render: function(){
+    var renderedTemplate = this.detailTemplate(this.model);
+    this.$el.html(renderedTemplate);
+  }
+})
 
   collection.fetch({add:true});
-////END VIEW/////
     
 
 
