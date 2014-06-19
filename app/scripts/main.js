@@ -3,33 +3,27 @@
 Parse.initialize("FU763QF0GcO4c8CWgyErSTBwEfYmmvtJxgvYLLjs", "qyte7Vfkkc3NtqL767YsGaXO7FjGk4KNUWx5RP7E");
 
 //MODEL///////
-var Gallery = Parse.Object.extend({
-  className: 'Gallery'
+var Post = Parse.Object.extend({
+  className: 'Post'
 });
 ///END MODEL//
 
 
-
-
-
-
 //COLLECTION//
 
-var GalleryCollection = Parse.Collection.extend({
+var PostCollection = Parse.Collection.extend({
 
-  model: Gallery
+  model: Post
 
 });
 
-var collection = new GalleryCollection();
+var collection = new PostCollection();
 //ENDCOLLECTION/
-
-
 
 ////VIEW//////
 
 
-var GalleryView = Parse.View.extend({
+var PostView = Parse.View.extend({
 
   className: 'cool',
 
@@ -52,28 +46,30 @@ var GalleryView = Parse.View.extend({
 
   render: function(){
     
-    var renderedTemplate = this.pictureTemplate("");
+    var renderedTemplate = this.pictureTemplate();
 
     this.$el.html(renderedTemplate);
 
   },
 
   showUpload: function(){
-    console.log('hi')
+    console.log('button works')
     
-      var gallery = new Gallery();
-
-    // var gallery = new Gallery();
+      var post = new Parse.Object('Post');
       var url = $('.uploader').val();
-      gallery.set('url', url);
+      post.set('url', url);
 
-      gallery.save();
+      post.save().done(function(){
+        new PostView({
+          model: post
+        })
+      })
     
   }
 
 });
 
-  var view = new GalleryView();
+  var view = new PostView();
 
   collection.fetch({add:true});
 ////END VIEW/////
