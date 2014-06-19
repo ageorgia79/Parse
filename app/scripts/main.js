@@ -81,8 +81,16 @@ var DetailView = Parse.View.extend({
   detailTemplate: _.template($('.detail-template').text()),
 
   initialize: function(){
+    //this.model.on('change');
     $('.imagecontainer').append(this.el);
     this.render();
+
+    //this.model.on('change', this.render.bind(this) );
+
+
+    //this.model.collection.on('add', this.render); NOT A GOOD IDEA
+    //this.collection.on('change', this.render); NOT A GOOD IDEA
+    //this.model.on('change', this.render);
   },
 
   render: function(){
@@ -90,7 +98,9 @@ var DetailView = Parse.View.extend({
     this.$el.html(renderedTemplate);
   }
 })
-
+  collection.on('add', function(model){
+    new DetailView({model: model})
+  });
   collection.fetch({add:true});
     
 
