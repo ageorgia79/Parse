@@ -12,12 +12,28 @@ body {
 }
 
 .uploader {
+	position: fixed;
     width: 500px;
     height: 50px;
     font-size: 20px;
+    margin-left: 105px;
+    margin-top: 300px;
 }
 
 .upload {
+	position: fixed;
     width: 100px;
     height: 50px;
+    margin-top: 300px;
+}
+
+.imagecontainer {
+	overflow: scroll;
+	float: right;
+	width: 800px;
+}
+.imagecontainer img {
+	display: inline-block;
+	float: right;
+
 }

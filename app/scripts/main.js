@@ -102,12 +102,3 @@ var DetailView = Parse.View.extend({
     new DetailView({model: model})
   });
   collection.fetch({add:true});
-    
-
-
-
-
-    
-    
-
-
