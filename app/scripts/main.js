@@ -6,19 +6,22 @@ Parse.initialize("FU763QF0GcO4c8CWgyErSTBwEfYmmvtJxgvYLLjs", "qyte7Vfkkc3NtqL767
 var Post = Parse.Object.extend({
   className: 'Post'
 });
-///END MODEL//
+///END MODEL////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
 //COLLECTION//
 
 var PostCollection = Parse.Collection.extend({
 
-  model: Post
+  model: Post,
 
 });
 
 var collection = new PostCollection();
-//ENDCOLLECTION/
+
+//ENDCOLLECTION/////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 ////POSTVIEW//////
 
@@ -60,7 +63,7 @@ var PostView = Parse.View.extend({
       post.set('url', url);
 
       post.save().done(function(){
-        var detail = new DetailView({model: this.model});
+        var detail = new DetailView({model: post});
         $('.imagecontainer').append(detail);
 
       })
@@ -70,7 +73,9 @@ var PostView = Parse.View.extend({
 });
 
   var view = new PostView();
-////END POSTVIEW/////
+
+////END POSTVIEW////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 //BEGIN DETAIL VIEW//
 
@@ -80,6 +85,11 @@ var DetailView = Parse.View.extend({
 
   detailTemplate: _.template($('.detail-template').text()),
 
+  events: {
+
+    "click .comment": "showComment"
+  },
+
   initialize: function(){
     //this.model.on('change');
     $('.imagecontainer').append(this.el);
@@ -87,18 +97,42 @@ var DetailView = Parse.View.extend({
 
     //this.model.on('change', this.render.bind(this) );
 
-
-    //this.model.collection.on('add', this.render); NOT A GOOD IDEA
-    //this.collection.on('change', this.render); NOT A GOOD IDEA
-    //this.model.on('change', this.render);
   },
 
   render: function(){
-    var renderedTemplate = this.detailTemplate(this.model);
+    var renderedTemplate = this.detailTemplate(this.model.attributes);
     this.$el.html(renderedTemplate);
+    return this;
+  },
+
+  showComment: function(){
+    console.log('firing')
+
+    var post = new Parse.Object('Post');
+    var comment = $('.comments').val();
+    post.set('comment', comment);
+
+    var that = this;
+
+    post.save().done(function(){
+      var detail = new DetailView({model: that.model});
+      $('.commentbox').append(detail);
+    })
+
   }
-})
+});
+////////////////////////////////////////////////////////////////////////////////////////////
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    
   collection.on('add', function(model){
-    new DetailView({model: model})
+    
+    
   });
-  collection.fetch({add:true});
+  collection.fetch({add:true}).done(function(){
+    collection.each(function(photoModel) {
+      new DetailView({model: photoModel})
+    });
+  })
+
+
+

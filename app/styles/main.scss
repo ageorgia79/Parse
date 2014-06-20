@@ -12,28 +12,55 @@ body {
 }
 
 .uploader {
-	position: fixed;
+    position: fixed;
     width: 500px;
     height: 50px;
     font-size: 20px;
     margin-left: 105px;
     margin-top: 300px;
+
 }
 
 .upload {
-	position: fixed;
+    position: fixed;
     width: 100px;
     height: 50px;
     margin-top: 300px;
 }
 
 .imagecontainer {
-	overflow: scroll;
-	float: right;
-	width: 800px;
+    overflow: scroll;
+    float: right;
+    width: 700px;
 }
 .imagecontainer img {
-	display: inline-block;
-	float: right;
+    display: inline-block;
 
+    
 }
+
+.commentbox {
+    margin-bottom: 20px;
+    height: 150px;
+    width: 400px;
+    border: 2px solid black;
+}
+
+.comments {
+    width: 200px;
+    height: 25px;
+    position: relative;
+    top: 75px;
+}
+
+.comment {
+    height: 25px;
+    position: relative;
+    top: 75px;
+}
+    
+    
+    
+
+
+
