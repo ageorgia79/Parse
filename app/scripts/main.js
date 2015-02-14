@@ -66,6 +66,7 @@ var PostView = Parse.View.extend({
         var detail = new DetailView({model: post});
         $('.imagecontainer').append(detail);
 
+
       })
     
   }
@@ -121,6 +122,8 @@ var DetailView = Parse.View.extend({
 
   }
 });
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     
